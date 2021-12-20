@@ -1,2 +1,5 @@
 *.iml
 .idea/
+*.sh
+logs/*
+commit4J/mailNotice.py
