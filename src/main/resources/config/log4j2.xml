@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO">
+    <Properties>
+		<Property name="baseDir">/root/regRecord-springboot</Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+<!--            <PatternLayout pattern="%d{YYYY-MM-dd HH:mm:ss} [%t] %-5p %c{1}:%L - %msg%n" />-->
+            <PatternLayout pattern="%d{HH:mm:ss} [%t] %-5p %c{1}:%L - %msg%n" />
+        </Console>
+
+        <RollingFile name="RollingFile" fileName="${baseDir}/logs/${date:yyyy-MM-dd}.log" filePattern="${baseDir}/logs/${date:yyyy-MM}/${date:YYYY-MM-dd}-fargo.log.zip">
+            <PatternLayout pattern="%d{YYYY-MM-dd HH:mm:ss} %-5p %c{1}:%L - %msg%n" />
+            <Policies>
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20" />
+        </RollingFile>
+        <!-- 手机短信日志-->
+        <RollingFile name="SMSRollingFile" fileName="${baseDir}/logs/${date:yyyy-MM-dd}-sms.log" filePattern="${baseDir}/logs/${date:yyyy-MM}/sms/${date:YYYY-MM-dd}-sms-fargo.log.zip">
+            <PatternLayout pattern="%d{YYYY-MM-dd HH:mm:ss} [%-5p] %msg%n" />
+            <Policies>
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20" />
+        </RollingFile>
+
+    </Appenders>
+
+    <Loggers>
+        <Root level="INFO">
+<!--            <AppenderRef ref="Console" />-->
+            <AppenderRef ref="RollingFile" />
+        </Root>
+        <Logger name="SMSLogger" additivity="false" level="INFO">
+            <appender-ref ref="SMSRollingFile" level="INFO"/>
+        </Logger>
+    </Loggers>
+</Configuration>

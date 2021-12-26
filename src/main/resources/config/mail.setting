@@ -1,0 +1,4 @@
+from = youremail@example.com
+pass = AnHexString
+port = 465
+sslEnable = true

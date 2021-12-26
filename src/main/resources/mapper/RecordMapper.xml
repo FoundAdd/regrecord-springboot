@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hy.regrecordspringboot.mapper.RecordMapper">
+    <resultMap id="BaseResultMap" type="cn.hy.regrecordspringboot.bean.entity.RegRecord">
+        <id column="reg_id" jdbcType="INTEGER" property="regId"/>
+        <result column="reg_name" jdbcType="VARCHAR" property="regName"/>
+        <result column="reg_address" jdbcType="VARCHAR" property="regAddress"/>
+        <result column="reg_phone" jdbcType="VARCHAR" property="regPhone"/>
+        <result column="reg_password" jdbcType="VARCHAR" property="regPassword"/>
+        <result column="reg_create_time" jdbcType="DATE" property="regCreateTime"/>
+        <result column="reg_modify_time" jdbcType="DATE" property="regModifyTime"/>
+        <result column="account_id" jdbcType="INTEGER" property="accountId"/>
+    </resultMap>
+
+    <select id="selectCount" resultType="Integer">
+        select count(reg_id)
+        from reg_record
+        where account_id = #{accountId}
+    </select>
+
+    <select id="selectByAccountId" resultMap="BaseResultMap">
+        select reg_id,
+               reg_name,
+               reg_address,
+               reg_phone,
+               reg_password,
+               reg_create_time,
+               reg_modify_time,
+               account_id
+        from reg_record
+        where account_id = #{accountId}
+        limit #{index},#{limit}
+    </select>
+
+    <select id="selectByAccountIdAndRegPhone" resultMap="BaseResultMap">
+        select reg_id,
+               reg_name,
+               reg_phone,
+               reg_password,
+               reg_create_time,
+               reg_modify_time,
+               account_id
+        from reg_record
+        where account_id = #{accountId}
+          and reg_phone = #{regPhone}
+    </select>
+
+    <select id="selectByAccountIdAndRegName" resultMap="BaseResultMap">
+        select reg_id,
+               reg_name,
+               reg_phone,
+               reg_password,
+               reg_create_time,
+               reg_modify_time,
+               account_id
+        from reg_record
+        where account_id = #{accountId}
+          and reg_name = #{regName}
+    </select>
+
+    <select id="selectByAccountIdAndRegPassword" resultMap="BaseResultMap">
+        select reg_id,
+               reg_name,
+               reg_phone,
+               reg_password,
+               reg_create_time,
+               reg_modify_time,
+               account_id
+        from reg_record
+        where account_id = #{accountId}
+          and reg_password = #{regPassword}
+    </select>
+
+    <delete id="deleteByPKAndFK">
+        delete
+        from reg_record
+        where reg_id = #{regId}
+          and account_id = #{accountId}
+    </delete>
+
+    <delete id="deleteRecords">
+        delete
+        from reg_record
+        where reg_id in
+        <foreach collection="reg_id_array" item="reg_id" open="(" separator="," close=")">
+            #{reg_id}
+        </foreach>
+        and account_id = #{accountId}
+    </delete>
+
+    <insert id="insert">
+        insert into reg_record (reg_id,
+                                reg_name,
+                                reg_address,
+                                reg_phone,
+                                reg_password,
+                                reg_create_time,
+                                reg_modify_time,
+                                account_id)
+        values (#{record.regId},
+                #{record.regName},
+                #{record.regAddress},
+                #{record.regPhone},
+                #{record.regPassword},
+                #{record.regCreateTime},
+                #{record.regModifyTime},
+                #{record.accountId})
+    </insert>
+
+    <update id="updateByPKAndFK">
+        update reg_record
+        set reg_name        = #{record.regName},
+            reg_address     = #{record.regAddress},
+            reg_phone       = #{record.regPhone},
+            reg_password    = #{record.regPassword},
+            reg_modify_time = #{record.regModifyTime}
+        where reg_id = #{record.regId}
+          and account_id = #{record.accountId}
+    </update>
+
+</mapper>

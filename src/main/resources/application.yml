@@ -1,0 +1,59 @@
+server:
+  servlet:
+    context-path: /regRecord
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/reg_record?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: root
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 15
+      auto-commit: true
+      idle-timeout: 30000
+      pool-name: DatebookHikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+  redis:
+    host: localhost
+    port: 6379
+    password: redis
+    timeout: 10000
+    jedis:
+      pool:
+        max-active: 50
+        max-idle: 50
+        min-idle: 0
+        max-wait: 18000
+  mvc:
+    view:
+      suffix: .html
+      prefix: ../
+    throw-exception-if-no-handler-found: true
+
+logging:
+  config: classpath:config/log4j2.xml
+
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath*:mapper/*.xml
+  type-aliases-package: cn.hy.regrecordspringboot.bean.entity
+
+#mybatis-plus:
+#  configuration:
+#    map-underscore-to-camel-case: true
+#    auto-mapping-behavior: full
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#  mapper-locations: classpath:mapper/*.xml
+#  global-config:
+#    # 逻辑删除配置
+#    db-config:
+#      # 删除前
+#      logic-not-delete-value: 1
+#      # 删除后
+#      logic-delete-value: 0

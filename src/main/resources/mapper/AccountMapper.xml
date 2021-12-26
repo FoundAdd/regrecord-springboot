@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.hy.regrecordspringboot.mapper.AccountMapper">
+  <resultMap id="BaseResultMap" type="cn.hy.regrecordspringboot.bean.entity.Account">
+    <id column="account_id" jdbcType="INTEGER" property="accountId" />
+    <result column="account_name" jdbcType="VARCHAR" property="accountName" />
+    <result column="account_password" jdbcType="VARCHAR" property="accountPassword" />
+    <result column="account_phone" jdbcType="VARCHAR" property="accountPhone" />
+    <result column="account_mail" jdbcType="VARCHAR" property="accountMail" />
+    <result column="account_nick_name" jdbcType="VARCHAR" property="accountNickName" />
+    <result column="account_create_time" jdbcType="DATE" property="accountCreateTime" />
+    <result column="account_statu" jdbcType="VARCHAR" property="accountStatu" />
+    <result column="account_level" jdbcType="INTEGER" property="accountLevel" />
+  </resultMap>
+
+  <select id="selectPasswordByName" resultMap="BaseResultMap">
+    select account_id, account_name, account_password, account_statu from account where account_name=#{account_name}
+  </select>
+  <select id="selectPasswordByMail" resultMap="BaseResultMap">
+    select account_id, account_name, account_password, account_statu from account where account_mail=#{account_mail}
+  </select>
+  <select id="selectPasswordByPhone" resultMap="BaseResultMap">
+    select account_id, account_name, account_password, account_statu from account where account_phone=#{account_phone}
+  </select>
+  <select id="selectPasswordByPrimaryKey" resultMap="BaseResultMap">
+    select account_id, account_password from account where account_id=#{account_id}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+    select
+      account_id,
+      account_name,
+      account_password,
+      account_phone,
+      account_mail,
+      account_nick_name,
+      account_create_time,
+      account_statu,
+      account_level from account where account_id = #{accountId}
+  </select>
+  <select id="selectForTokenByPrimaryKey" resultMap="BaseResultMap">
+    select account_id,
+           account_name,
+           account_password from account where account_id = #{accountId}
+  </select>
+  <select id="selectCount" resultType="int">
+    select count(*) from account
+  </select>
+  <select id="selectCountByAccountName" resultType="int">
+    select count(account_id) from account where account_name=#{account_name}
+  </select>
+  <select id="selectByNick" resultType="int">
+    select
+        count(account_id)
+    from
+        account
+    where
+        account_nick_name=#{account_nick_name}
+  </select>
+
+  <insert id="insert">
+    insert into
+      account (
+      account_id,
+      account_name,
+      account_password,
+      account_phone,
+      account_mail,
+      account_nick_name,
+      account_create_time,
+      account_statu,
+      account_level)
+    values (
+     #{account.accountId},
+     #{account.accountName},
+     #{account.accountPassword},
+     #{account.accountPhone},
+     #{account.accountMail},
+     #{account.accountNickName},
+     #{account.accountCreateTime},
+     #{account.accountStatu},
+     #{account.accountLevel})
+  </insert>
+
+  <update id="updateByPrimaryKey">
+    update account
+    set
+      account_name = #{accountName},
+      account_password = #{accountPassword},
+      account_phone = #{accountPhone},
+      account_mail = #{accountMail},
+      account_nick_name = #{accountNickName},
+      account_create_time = #{accountCreateTime},
+      account_statu = #{accountStatu},
+      account_level = #{accountLevel}
+    where account_id = #{accountId}
+  </update>
+  <update id="updatePasswordByPrimaryKey">
+    update
+        account
+    set
+        account_password=#{account_password}
+    where
+        account_id=#{account_id}
+  </update>
+  <update id="updatePhoneByPrimaryKey">
+    update
+        account
+    set
+        account_phone=#{account_phone}
+    where
+        account_id=#{account_id}
+  </update>
+  <update id="updateMailByPrimaryKey">
+    update
+        account
+    set
+        account_mail=#{account_mail}
+    where
+        account_id=#{account_id}
+  </update>
+  <update id="updateNickNameByPrimaryKey">
+    update
+        account
+    set
+        account_nick_name=#{account_nick_name}
+    where
+        account_id=#{account_id}
+  </update>
+</mapper>
